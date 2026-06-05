@@ -57,30 +57,30 @@ const MyProfile = () => {
       </div>
       <div>
         <p className="text-neutral-500 underline mt-3">BASIC INFORMATION</p>
-        <div>
-          <p>Gender:</p>
+        <div className="grid grid-cols-[1fr_3fr] gap-y-2.5 mt-3 text-neutral-700">
+          <p className='font-medium'>Gender:</p>
           {
             isEdit
-              ? <select value={userData.gender} onChange={(e) => setUserData(prev => ({ ...prev, gender: e.target.value }))}>
+              ? <select className="max-w-20 bg-gray-100" value={userData.gender} onChange={(e) => setUserData(prev => ({ ...prev, gender: e.target.value }))}>
                 <option value="Male">Male</option>
                 <option value="Female">Female </option>
                 <option value="Other">Other</option>
               </select>
-              : <p>{userData.gender}</p>
+              : <p className="text-gray-400">{userData.gender}</p>
           }
-          <p>BirthDay:</p>
+          <p className='font-medium'>BirthDay:</p>
           {
             isEdit
-              ? <input type="date" value={userData.dob} onChange={(e) => setUserData(prev => ({ ...prev, dob: e.target.value }))} />
-              : <p>{userData.dob}</p>
+              ? <input className="max-w-28 bg-gray-100" type="date" value={userData.dob} onChange={(e) => setUserData(prev => ({ ...prev, dob: e.target.value }))} />
+              : <p className="text-gray-400">{userData.dob}</p>
           }
         </div>
       </div>
-      <div>
+      <div className="mt-10">
         {
           isEdit            
-            ? <button onClick={() => setIsEdit(false)}>Save information</button>
-            : <button onClick={() => setIsEdit(true)}>Edit</button>
+            ? <button className="border border-primary px-8 py-2 rounded-full hover:bg-primary hover:text-white transition-all" onClick={() => setIsEdit(false)}>Save information</button>
+            : <button className="border border-primary px-8 py-2 rounded-full hover:bg-primary hover:text-white transition-all" onClick={() => setIsEdit(true)}>Edit</button>
         }
       </div>
     </div>
