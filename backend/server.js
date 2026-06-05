@@ -4,16 +4,19 @@ import bodyParser from 'body-parser'
 import 'dotenv/config'
 import mongoose from 'mongoose'
 import connectDB from './config/mongodb.js'
+import connectCloudinary from './config/cloudinary.js'
 
 //app config
 
 const app = express()
 const port = process.env.PORT || 4000
+connectDB()
+connectCloudinary()
 
 //middleware
 app.use(express.json())
 app.use(cors())
-connectDB()
+
 
 //api endpoints
 app.get('/', (req, res) => {
