@@ -14,6 +14,9 @@ const port = process.env.PORT || 4000
 connectDB()
 connectCloudinary()
 
+import {v2 as cloudinary} from 'cloudinary'
+console.log('Cloudinary config:', cloudinary.config())
+
 //middleware
 app.use(express.json())
 app.use(cors())
