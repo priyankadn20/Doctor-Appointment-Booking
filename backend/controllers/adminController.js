@@ -2,7 +2,7 @@ import validator from 'validator'
 import bcrypt from 'bcrypt'
 import { v2 as cloudinary } from 'cloudinary'
 import doctorModel from '../models/doctorModel.js'
-import JWT from 'jsonwebtoken'
+import jwt from 'jsonwebtoken'
 
 //api for adding doctor by admin
 const addDoctor = async (req, res) => {
@@ -71,7 +71,7 @@ const loginAdmin = async (req, res) => {
         const { email, password } = req.body
 
         if (email === process.env.ADMIN_EMAIL && password === process.env.ADMIN_PASSWORD) {
-            
+
            const token = jwt.sign(email+password, process.env.JWT_SECRET)
             res.status(200).json({ success: true, message: 'Admin logged in successfully', token })
 
