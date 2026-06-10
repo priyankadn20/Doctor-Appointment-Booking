@@ -2,6 +2,7 @@ import validator from 'validator'
 import bcrypt from 'bcrypt'
 import { v2 as cloudinary } from 'cloudinary'
 import doctorModel from '../models/doctorModel.js'
+import JWT from 'jsonwebtoken'
 
 //api for adding doctor by admin
 const addDoctor = async (req, res) => {
@@ -27,12 +28,12 @@ const addDoctor = async (req, res) => {
         // hashing the password
         const salt = await bcrypt.genSalt(10)
         const hashedPassword = await bcrypt.hash(password, salt)
-        
+
         //uploading image to cloudinary
         const imageUpload = await cloudinary.uploader.upload(imageFile.path, {
             resource_type: "image"
         });
-            
+
         console.log('Upload result:', imageUpload)
 
         const imageUrl = imageUpload.secure_url
@@ -64,4 +65,24 @@ const addDoctor = async (req, res) => {
     }
 }
 
-export { addDoctor };
+//API for the admin login
+const loginAdmin = async (req, res) => {
+    try {
+        const { email, password } = req.body
+
+        if (email === process.env.ADMIN_EMAIL && password === process.env.ADMIN_PASSWORD) {
+            
+           const token = jwt.sign(email+password, process.env.JWT_SECRET)
+            res.status(200).json({ success: true, message: 'Admin logged in successfully', token })
+
+        } else {
+            res.status(401).json({ success: false, message: 'Invalid email or password' })
+        }
+
+    } catch (error) {
+        console.error('Error logging in admin:', error)
+        res.status(500).json({ success: false, message: 'Error logging in admin', error })
+    }
+}
+
+export { addDoctor, loginAdmin };
