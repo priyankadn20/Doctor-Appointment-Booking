@@ -9,8 +9,6 @@ const addDoctor = async (req, res) => {
         const { name, email, password, specialization, degree, experience, about, available, fees, address } = req.body
         const imageFile = req.file
 
-        console.log({ name, email, password, specialization, degree, experience, about, available, fees, address, imageFile })
-
         //checking for all data to add doctor
         if (!name || !email || !password || !specialization || !degree || !experience || !about || !available || !fees || !address || !imageFile) {
             return res.status(400).json({ success: false, message: 'All fields are required' })
@@ -29,11 +27,12 @@ const addDoctor = async (req, res) => {
         // hashing the password
         const salt = await bcrypt.genSalt(10)
         const hashedPassword = await bcrypt.hash(password, salt)
-        console.log('Password hashed successfully')
+        
         //uploading image to cloudinary
-       const imageUpload = await cloudinary.uploader.upload(imageFile.path, {
-     upload_preset: 'prescripto'
-})
+        const imageUpload = await cloudinary.uploader.upload(imageFile.path, {
+            resource_type: "image"
+        });
+            
         console.log('Upload result:', imageUpload)
 
         const imageUrl = imageUpload.secure_url
